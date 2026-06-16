@@ -1,0 +1,9 @@
+Options -Indexes
+RewriteEngine On
+# Force HTTPS
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [L,R=301]
+# Revalidate HTML so future fixes propagate immediately
+<FilesMatch "\.(html|htm)$">
+  Header set Cache-Control "no-cache, must-revalidate, max-age=0"
+</FilesMatch>

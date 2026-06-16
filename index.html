@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Fintech Founder's Authority Playbook — a free 5-day course</title>
+<meta name="description" content="A free 5-day email course for B2B fintech founders. The 5 mistakes that keep sharp founders invisible, and the fix for each one." />
+
+<!--
+  HEADLINE A/B VARIANTS (for later testing — shipping = variant 1 below):
+  1. (SHIPPING) Become the voice your fintech market trusts. In 5 days. Without leaving the build.
+  2. 5 mistakes keep sharp fintech founders invisible. Here's the fix for each, in 5 days.
+  3. You'd rather build than post. Your market still buys from whoever it trusts. Fix that in 5 days, free.
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Gloock&family=Spline+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+
+<style>
+  :root {
+    --ink: #14161c;          /* warm near-black base */
+    --ink-2: #1b1e26;        /* lifted panel tone (no borders, tone shift only) */
+    --paper: #f3efe6;        /* warm off-white text */
+    --paper-soft: #b9b6ad;   /* muted body */
+    --paper-faint: #807d76;  /* faint meta */
+    --accent: #5e8bff;       /* deep-blue accent */
+    --accent-deep: #2f53c4;  /* deep variant for gradients */
+    --serif: 'Gloock', Georgia, serif;
+    --sans: 'Spline Sans', -apple-system, sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+  body {
+    background: var(--ink);
+    color: var(--paper);
+    font-family: var(--sans);
+    font-weight: 400;
+    line-height: 1.55;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* atmosphere: radial bloom + grain, no solid flatness */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(70% 55% at 78% -8%, rgba(94,139,255,0.16), transparent 60%),
+      radial-gradient(60% 50% at 8% 12%, rgba(47,83,196,0.10), transparent 65%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+    pointer-events: none;
+    opacity: 0.6;
+    z-index: 0;
+    mix-blend-mode: overlay;
+  }
+
+  .wrap { position: relative; z-index: 1; width: 100%; max-width: 1180px; margin: 0 auto; padding: 0 40px; }
+
+  /* ---------- ABOVE THE FOLD ---------- */
+  .hero {
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 64px 0 56px;
+    position: relative;
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 30px;
+    opacity: 0;
+    animation: rise 0.8s 0.05s cubic-bezier(.2,.7,.2,1) forwards;
+  }
+  .eyebrow svg { width: 15px; height: 15px; }
+
+  h1 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(2.5rem, 6.2vw, 5rem);
+    line-height: 1.04;
+    letter-spacing: -0.015em;
+    max-width: 16ch;
+    margin-bottom: 26px;
+  }
+  h1 .ln { display: block; opacity: 0; animation: rise 0.9s cubic-bezier(.2,.7,.2,1) forwards; }
+  h1 .ln:nth-child(1) { animation-delay: 0.12s; }
+  h1 .ln:nth-child(2) { animation-delay: 0.24s; }
+  h1 .accent { color: var(--accent); font-style: italic; }
+
+  .subhead {
+    font-size: clamp(1rem, 1.55vw, 1.22rem);
+    color: var(--paper-soft);
+    max-width: 52ch;
+    line-height: 1.5;
+    margin-bottom: 38px;
+    opacity: 0;
+    animation: rise 0.9s 0.36s cubic-bezier(.2,.7,.2,1) forwards;
+  }
+
+  /* form */
+  .capture {
+    opacity: 0;
+    animation: rise 0.9s 0.5s cubic-bezier(.2,.7,.2,1) forwards;
+    max-width: 560px;
+  }
+  form.optin {
+    display: flex;
+    gap: 10px;
+    background: var(--ink-2);
+    border-radius: 16px;
+    padding: 8px;
+    box-shadow: 0 30px 60px -30px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.04) inset;
+  }
+  form.optin input[type="email"] {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--paper);
+    font-family: var(--sans);
+    font-size: 1.02rem;
+    padding: 15px 16px;
+    min-width: 0;
+  }
+  form.optin input[type="email"]::placeholder { color: var(--paper-faint); }
+
+  button.cta {
+    flex-shrink: 0;
+    border: none;
+    cursor: pointer;
+    font-family: var(--sans);
+    font-weight: 600;
+    font-size: 0.98rem;
+    color: #fff;
+    padding: 15px 24px;
+    border-radius: 11px;
+    background: linear-gradient(180deg, var(--accent), var(--accent-deep));
+    box-shadow: 0 12px 26px -10px rgba(47,83,196,0.7);
+    transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  button.cta:hover { transform: translateY(-2px); box-shadow: 0 18px 34px -10px rgba(47,83,196,0.85); filter: brightness(1.06); }
+  button.cta:active { transform: translateY(0); }
+  button.cta svg { width: 17px; height: 17px; }
+
+  .microcopy {
+    margin-top: 16px;
+    font-size: 0.86rem;
+    color: var(--paper-faint);
+    letter-spacing: 0.01em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .microcopy svg { width: 15px; height: 15px; color: var(--accent); flex-shrink: 0; }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 26px;
+    left: 0;
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--paper-faint);
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    opacity: 0;
+    animation: rise 1s 0.9s ease forwards;
+  }
+  .scroll-hint svg { width: 16px; height: 16px; animation: bob 2.2s ease-in-out infinite; }
+
+  /* ---------- BELOW THE FOLD ---------- */
+  section { padding: 96px 0; position: relative; }
+  .section-tone { background: linear-gradient(180deg, transparent, rgba(255,255,255,0.018) 14%, rgba(255,255,255,0.018) 86%, transparent); }
+
+  .kicker {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 22px;
+  }
+  h2 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(1.9rem, 3.6vw, 3rem);
+    line-height: 1.1;
+    letter-spacing: -0.012em;
+    max-width: 20ch;
+    margin-bottom: 14px;
+  }
+  .lede { font-size: clamp(1.02rem, 1.4vw, 1.18rem); color: var(--paper-soft); max-width: 56ch; line-height: 1.55; }
+
+  /* what you get */
+  .gets { margin-top: 52px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 38px 60px; }
+  .get { display: flex; gap: 18px; align-items: flex-start; }
+  .get .ic {
+    flex-shrink: 0;
+    width: 38px; height: 38px;
+    border-radius: 10px;
+    display: grid; place-items: center;
+    background: linear-gradient(180deg, rgba(94,139,255,0.18), rgba(47,83,196,0.10));
+    color: var(--accent);
+  }
+  .get .ic svg { width: 19px; height: 19px; }
+  .get p { font-size: 1.04rem; color: var(--paper); line-height: 1.5; }
+
+  /* what's inside — the 5 days */
+  .days { margin-top: 56px; display: flex; flex-direction: column; }
+  .day {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 28px;
+    align-items: baseline;
+    padding: 26px 0;
+  }
+  .day + .day { background-image: linear-gradient(90deg, rgba(255,255,255,0.07), rgba(255,255,255,0)); background-size: 100% 1px; background-repeat: no-repeat; background-position: top; }
+  .day .num {
+    font-family: var(--serif);
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    color: var(--accent);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    min-width: 2.4ch;
+  }
+  .day .body .tag { font-family: var(--serif); font-size: clamp(1.15rem, 1.9vw, 1.5rem); color: var(--paper); display: block; margin-bottom: 4px; line-height: 1.2; }
+  .day .body .desc { color: var(--paper-soft); font-size: 1rem; }
+
+  /* is this for me */
+  .forme { margin-top: 48px; display: flex; flex-direction: column; gap: 4px; max-width: 70ch; }
+  .forme .row { display: flex; gap: 16px; align-items: flex-start; padding: 16px 0; }
+  .forme .row .chk { flex-shrink: 0; width: 22px; height: 22px; color: var(--accent); margin-top: 2px; }
+  .forme .row .chk svg { width: 22px; height: 22px; }
+  .forme .row p { font-size: 1.06rem; color: var(--paper); line-height: 1.45; }
+  .forme .closer { margin-top: 26px; font-family: var(--serif); font-size: clamp(1.2rem, 2vw, 1.6rem); color: var(--paper); line-height: 1.3; }
+
+  /* credibility */
+  .cred { display: grid; grid-template-columns: 1fr; gap: 30px; max-width: 64ch; }
+  .cred .sig { font-family: var(--serif); font-size: clamp(1.6rem, 3vw, 2.3rem); color: var(--paper); line-height: 1.18; margin-bottom: 8px; }
+  .cred .story { font-size: clamp(1.05rem, 1.5vw, 1.2rem); color: var(--paper-soft); line-height: 1.6; }
+  .cred .story b { color: var(--paper); font-weight: 500; }
+
+  /* final cta */
+  .final { text-align: center; padding: 110px 0 120px; }
+  .final h2 { margin: 0 auto 18px; max-width: 22ch; }
+  .final .capture { margin: 36px auto 0; opacity: 1; animation: none; }
+  .final .signline { margin-top: 30px; font-family: var(--serif); font-size: clamp(1.25rem, 2.2vw, 1.85rem); color: var(--paper); line-height: 1.3; max-width: 24ch; margin-left: auto; margin-right: auto; }
+  .final .signoff { margin-top: 40px; font-size: 0.9rem; color: var(--paper-faint); }
+
+  /* scroll reveal */
+  .reveal { opacity: 0; transform: translateY(26px); transition: opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1); }
+  .reveal.in { opacity: 1; transform: none; }
+
+  @keyframes rise { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }
+  @keyframes bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+    .reveal { opacity: 1; transform: none; }
+    .eyebrow, h1 .ln, .subhead, .capture, .scroll-hint { opacity: 1; }
+  }
+
+  /* ---------- MOBILE ---------- */
+  @media (max-width: 760px) {
+    .wrap { padding: 0 22px; }
+    .hero { padding: 40px 0 44px; min-height: 100svh; justify-content: center; }
+    .eyebrow { margin-bottom: 22px; }
+    h1 { font-size: clamp(2.05rem, 9vw, 2.9rem); margin-bottom: 18px; }
+    .subhead { font-size: 1rem; margin-bottom: 26px; }
+    form.optin { flex-direction: column; gap: 8px; padding: 9px; }
+    form.optin input[type="email"] { padding: 14px 14px; }
+    button.cta { justify-content: center; padding: 15px 20px; }
+    .microcopy { align-items: flex-start; }
+    .scroll-hint { display: none; }
+    section { padding: 70px 0; }
+    .gets { grid-template-columns: 1fr; gap: 28px; margin-top: 40px; }
+    .day { grid-template-columns: auto 1fr; gap: 18px; padding: 22px 0; }
+    .forme .row p { font-size: 1.02rem; }
+    .final { padding: 80px 0 90px; }
+  }
+</style>
+</head>
+
+<body>
+
+  <!-- ======================= ABOVE THE FOLD ======================= -->
+  <header class="hero">
+    <div class="wrap">
+      <span class="eyebrow">
+        <!-- Lucide: mail-open -->
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.2 8.4c.5.38.8.97.8 1.6v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V10a2 2 0 0 1 .8-1.6l8-6a2 2 0 0 1 2.4 0z"/><path d="m22 10-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 10"/></svg>
+        Free 5-day email course
+      </span>
+
+      <h1>
+        <span class="ln">Become the voice your fintech market trusts.</span>
+        <span class="ln"><span class="accent">In 5 days. Without leaving the build.</span></span>
+      </h1>
+
+      <p class="subhead">A free 5-day email course for B2B fintech founders. The 5 mistakes that keep sharp founders invisible, and the fix for each one.</p>
+
+      <div class="capture">
+        <!-- BEEHIIV_FORM: replace action/publication-id when Beehiiv EEC automation is wired -->
+        <form class="optin" action="#" method="post" onsubmit="return false;" novalidate>
+          <input type="email" name="email" placeholder="Your best email" autocomplete="email" aria-label="Your best email" required />
+          <button type="submit" class="cta">
+            Send me the free 5-day course
+            <!-- Lucide: arrow-right -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </button>
+        </form>
+        <p class="microcopy">
+          <!-- Lucide: check-circle -->
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.801 10A10 10 0 1 1 17 3.335"/><path d="m9 11 3 3L22 4"/></svg>
+          One email a day for five days. Unsubscribe anytime. No pitch until you ask.
+        </p>
+      </div>
+    </div>
+
+    <div class="wrap">
+      <span class="scroll-hint">
+        Five mistakes below
+        <!-- Lucide: arrow-down -->
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg>
+      </span>
+    </div>
+  </header>
+
+  <!-- ======================= WHAT YOU GET ======================= -->
+  <section>
+    <div class="wrap">
+      <div class="reveal">
+        <p class="kicker">What you walk away with</p>
+        <h2>Everything you need to stop sounding like every other vendor.</h2>
+        <p class="lede">This free email course gives you everything you need to stop sounding like every other vendor and start sounding like the founder your market trusts.</p>
+      </div>
+
+      <div class="gets">
+        <div class="get reveal">
+          <span class="ic"><!-- Lucide: scan-search --><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><circle cx="12" cy="12" r="3"/><path d="m16 16-1.9-1.9"/></svg></span>
+          <p>Spot the 5 mistakes burying your authority (you're making at least two of them right now)</p>
+        </div>
+        <div class="get reveal">
+          <span class="ic"><!-- Lucide: message-square-text --><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M7 9h10"/><path d="M7 13h6"/></svg></span>
+          <p>The plain-words test that kills jargon and makes buyers repeat what you do back to their boss</p>
+        </div>
+        <div class="get reveal">
+          <span class="ic"><!-- Lucide: recycle --><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 19H4.815a1.83 1.83 0 0 1-1.57-.881 1.785 1.785 0 0 1-.004-1.784L7.196 9.5"/><path d="M11 19h8.203a1.83 1.83 0 0 0 1.556-.89 1.784 1.784 0 0 0 0-1.775l-1.226-2.12"/><path d="m14 16-3 3 3 3"/><path d="M8.293 13.596 7.196 9.5 3.1 10.598"/><path d="m9.344 5.811 1.093-1.892A1.83 1.83 0 0 1 11.985 3a1.784 1.784 0 0 1 1.546.888l3.943 6.843"/><path d="m13.378 9.633 4.096 1.098 1.097-4.096"/></svg></span>
+          <p>How to turn the build you're already doing into the content that compounds, with zero extra research</p>
+        </div>
+        <div class="get reveal">
+          <span class="ic"><!-- Lucide: badge-x --><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg></span>
+          <p>Why borrowed authority (logos, stats, big-name frameworks) makes buyers trust you less, not more</p>
+        </div>
+        <div class="get reveal">
+          <span class="ic"><!-- Lucide: pen-line --><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></span>
+          <p>How to write to the buyer who signs instead of the peers who clap</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= WHAT'S INSIDE — THE 5 DAYS ======================= -->
+  <section class="section-tone">
+    <div class="wrap">
+      <div class="reveal">
+        <p class="kicker">Here's what's inside</p>
+        <h2>Five days. Five mistakes. One fix each.</h2>
+      </div>
+
+      <div class="days">
+        <div class="day reveal">
+          <span class="num">01</span>
+          <div class="body"><span class="tag">The "Jargon Shield"</span><span class="desc">Why "smart" sounds like nothing.</span></div>
+        </div>
+        <div class="day reveal">
+          <span class="num">02</span>
+          <div class="body"><span class="tag">The "Feature Dump"</span><span class="desc">The fastest way to attract tire-kickers.</span></div>
+        </div>
+        <div class="day reveal">
+          <span class="num">03</span>
+          <div class="body"><span class="tag">The "Ship-the-Product-First Reflex"</span><span class="desc">Heads-down is how you disappear.</span></div>
+        </div>
+        <div class="day reveal">
+          <span class="num">04</span>
+          <div class="body"><span class="tag">The "Secondhand Expert"</span><span class="desc">Why "McKinsey says" weakens you.</span></div>
+        </div>
+        <div class="day reveal">
+          <span class="num">05</span>
+          <div class="body"><span class="tag">The "Audience-of-Peers Trap"</span><span class="desc">Lots of "great post," zero pipeline.</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= IS THIS FOR ME ======================= -->
+  <section>
+    <div class="wrap">
+      <div class="reveal">
+        <p class="kicker">Is this for me?</p>
+        <h2>If you see yourself in any of these.</h2>
+      </div>
+
+      <div class="forme">
+        <div class="row reveal">
+          <span class="chk"><!-- Lucide: check --><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+          <p>You're a B2B fintech founder who'd rather build the product than perform online</p>
+        </div>
+        <div class="row reveal">
+          <span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+          <p>You know the market buys from whoever it trusts, and right now that voice isn't you</p>
+        </div>
+        <div class="row reveal">
+          <span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+          <p>Your best ideas get ignored until a louder competitor says the same thing</p>
+        </div>
+        <div class="row reveal">
+          <span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+          <p>Prospects nod at the demo, then never quite trust you with the money</p>
+        </div>
+        <div class="row reveal">
+          <span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+          <p>Your site sounds like every other fintech: seamless, secure, scalable, forgettable</p>
+        </div>
+        <p class="closer reveal">...then this course was written for you.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= CREDIBILITY ======================= -->
+  <section class="section-tone">
+    <div class="wrap">
+      <div class="cred reveal">
+        <p class="kicker">Who's behind it</p>
+        <p class="sig">I'm Boubacar.</p>
+        <p class="story">I spent a decade inside a large company as the operator who knew the answer, understood the problem, and could see the fix, without the authority to make anyone listen. I watched my ideas get adopted years later by someone else, who got the credit. Then I built an autonomous operator to run the back office of my own business, and turned the operating lessons in my head into a voice that gets read. <b>I'm not a marketer guessing at your world. I live in the arena you're standing in.</b></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= FINAL CTA ======================= -->
+  <section class="final">
+    <div class="wrap">
+      <div class="reveal">
+        <p class="kicker" style="text-align:center;">Start day 1 today</p>
+        <h2 style="margin-left:auto;margin-right:auto;">Become the founder your market finally hears.</h2>
+
+        <div class="capture">
+          <!-- BEEHIIV_FORM: replace action/publication-id when Beehiiv EEC automation is wired -->
+          <form class="optin" action="#" method="post" onsubmit="return false;" novalidate>
+            <input type="email" name="email" placeholder="Your best email" autocomplete="email" aria-label="Your best email" required />
+            <button type="submit" class="cta">
+              Send me the free 5-day course
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </button>
+          </form>
+          <p class="microcopy" style="justify-content:center;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.801 10A10 10 0 1 1 17 3.335"/><path d="m9 11 3 3L22 4"/></svg>
+            One email a day for five days. Unsubscribe anytime. No pitch until you ask.
+          </p>
+        </div>
+
+        <p class="signline">Five days. Five mistakes. One founder your market finally hears.</p>
+        <p class="signoff">Boubacar</p>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // scroll reveal
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    document.querySelectorAll('.reveal').forEach((el, i) => {
+      el.style.transitionDelay = (Math.min(i % 6, 5) * 0.06) + 's';
+      io.observe(el);
+    });
+  </script>
+
+</body>
+</html>
