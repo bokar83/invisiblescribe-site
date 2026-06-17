@@ -326,7 +326,7 @@
 
       <div class="capture">
         <!-- BEEHIIV_FORM: replace action/publication-id when Beehiiv EEC automation is wired -->
-        <form class="optin" action="#" method="post" onsubmit="return false;" novalidate>
+        <form class="optin" action="subscribe.php" method="post" data-kit novalidate>
           <input type="email" name="email" placeholder="Your best email" autocomplete="email" aria-label="Your best email" required />
           <button type="submit" class="cta">
             Send me the free 5-day course
@@ -472,7 +472,7 @@
 
         <div class="capture">
           <!-- BEEHIIV_FORM: replace action/publication-id when Beehiiv EEC automation is wired -->
-          <form class="optin" action="#" method="post" onsubmit="return false;" novalidate>
+          <form class="optin" action="subscribe.php" method="post" data-kit novalidate>
             <input type="email" name="email" placeholder="Your best email" autocomplete="email" aria-label="Your best email" required />
             <button type="submit" class="cta">
               Send me the free 5-day course
@@ -504,5 +504,19 @@
     });
   </script>
 
+<script data-kit-wired>
+document.querySelectorAll('form[data-kit]').forEach(function(f){
+  f.addEventListener('submit',function(e){
+    e.preventDefault();
+    var inp=f.querySelector('input[type=email]'); var em=inp?inp.value:'';
+    var btn=f.querySelector('button,[type=submit]'); if(btn)btn.disabled=true;
+    fetch('subscribe.php',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:'email='+encodeURIComponent(em)})
+      .then(function(r){return r.json();}).then(function(d){
+        f.innerHTML = (d&&d.ok) ? '<p style="color:#9ce0b4;font-weight:600;margin:0">Check your inbox. Day 0 is on its way.</p>'
+                                : '<p style="color:#e8a0a0;margin:0">Something went wrong. Try again, or email boubacar@invisiblescribe.com.</p>';
+      }).catch(function(){ f.innerHTML='<p style="color:#e8a0a0;margin:0">Network error. Please try again.</p>'; });
+  });
+});
+</script>
 </body>
 </html>
