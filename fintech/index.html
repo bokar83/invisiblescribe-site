@@ -238,6 +238,36 @@ footer a{color:var(--ochre);text-decoration:underline;text-underline-offset:3px}
   .js-on h1.poster .scribe{color:var(--ochre);-webkit-text-stroke-color:transparent}
   .js-on h1.poster .scribe .ribbon{opacity:1}
 }
+
+/* ============================================================
+   DESKTOP POLISH (>=900px): balance only, mobile untouched
+   1) hero image fills its column (was floating, empty quadrant)
+   2) bio/.duo image readable (was crushed near-black by overlays)
+   3) sections 01/02 composed on wide screens (was sparse/empty)
+   ============================================================ */
+@media(min-width:900px){
+  /* 1) HERO: image stretches to the text column height, no empty cream band */
+  .hero-body{align-items:stretch}
+  .hero-photo{min-height:clamp(440px,44vw,560px);height:100%}
+
+  /* 2) BIO + HERO duo image: lift out of the dark void.
+        Source image is fine (~161/255 luminance); the multiply overlay was the culprit. */
+  .duo img{filter:grayscale(.28) contrast(1.04) brightness(1.12)}
+  .duo::after{opacity:.26}
+  .duo::before{opacity:.10}
+  /* bio tile also fills its row instead of sitting short */
+  .hphoto{min-height:clamp(420px,40vw,520px);height:100%}
+  .hgrid{align-items:stretch}
+
+  /* 3) TIGHTEN wide-screen composition: narrower editorial measure +
+        less marooned vertical space so 01/02 read composed, not empty. */
+  .wrap{max-width:1080px}
+  .sec{padding-top:clamp(72px,6.4vw,98px);padding-bottom:clamp(72px,6.4vw,98px)}
+  .sec.torn{padding-top:clamp(104px,9vw,128px)}
+  /* section 01 quote/body sit closer to a shared baseline, fuller column */
+  .qgrid{align-items:center;gap:56px}
+}
+
 </style>
 </head>
 <body>
