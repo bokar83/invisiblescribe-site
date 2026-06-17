@@ -1,7 +1,17 @@
 <?php
 header('Content-Type: application/json');
-$cfg = @include __DIR__ . '/kit_secret.php';   // ['key'=>'...'] in fintech docroot, NOT in git, HTTP-denied via .htaccess + return-only file
-$key = (is_array($cfg) && !empty($cfg['key'])) ? $cfg['key'] : getenv('KIT_API_KEY');
+// Key comes ONLY from a .env above the web root (not in git, not web-accessible).
+$key = getenv('KIT_API_KEY');
+if (!$key) {
+  foreach (['/../.env', '/../../.env', '/../../../.env'] as $rel) {
+    $f = __DIR__ . $rel;
+    if (is_file($f)) {
+      foreach (file($f, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) as $line) {
+        if (strpos($line, 'KIT_API_KEY=') === 0) { $key = trim(substr($line, 12), " \"'"); break 2; }
+      }
+    }
+  }
+}
 $email = filter_var($_POST['email'] ?? '', FILTER_VALIDATE_EMAIL);
 if (!$email) { http_response_code(422); echo json_encode(['ok'=>false,'error'=>'invalid_email']); exit; }
 if (!$key)   { http_response_code(500); echo json_encode(['ok'=>false,'error'=>'no_config']); exit; }
