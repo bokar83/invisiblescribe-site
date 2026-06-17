@@ -3,7 +3,7 @@ header('Content-Type: application/json');
 // Key comes ONLY from a .env above the web root (not in git, not web-accessible).
 $key = getenv('KIT_API_KEY');
 if (!$key) {
-  foreach (['/../.env', '/../../.env', '/../../../.env'] as $rel) {
+  foreach (['/.env', '/../.env', '/../../.env', '/../../../.env'] as $rel) {
     $f = __DIR__ . $rel;
     if (is_file($f)) {
       foreach (file($f, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) as $line) {
