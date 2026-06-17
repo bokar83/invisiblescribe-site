@@ -1,6 +1,6 @@
 <?php
 header('Content-Type: application/json');
-$cfg = @include __DIR__ . '/../kit_secret.php';   // ['key'=>'...'] above public_html, NOT in git
+$cfg = @include __DIR__ . '/kit_secret.php';   // ['key'=>'...'] in fintech docroot, NOT in git, HTTP-denied via .htaccess + return-only file
 $key = (is_array($cfg) && !empty($cfg['key'])) ? $cfg['key'] : getenv('KIT_API_KEY');
 $email = filter_var($_POST['email'] ?? '', FILTER_VALIDATE_EMAIL);
 if (!$email) { http_response_code(422); echo json_encode(['ok'=>false,'error'=>'invalid_email']); exit; }

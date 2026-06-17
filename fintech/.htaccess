@@ -7,3 +7,8 @@ RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [L,R=301]
 <FilesMatch "\.(html|htm)$">
   Header set Cache-Control "no-cache, must-revalidate, max-age=0"
 </FilesMatch>
+
+# Server-side secret: never servable over HTTP (defense-in-depth; file is also return-only).
+<Files "kit_secret.php">
+  Require all denied
+</Files>
