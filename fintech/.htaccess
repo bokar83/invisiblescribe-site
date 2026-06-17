@@ -7,3 +7,7 @@ RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [L,R=301]
 <FilesMatch "\.(html|htm)$">
   Header set Cache-Control "no-cache, must-revalidate, max-age=0"
 </FilesMatch>
+# Never serve the Kit API config or sample over the web
+<FilesMatch "^config(\.sample)?\.php$">
+  Require all denied
+</FilesMatch>
