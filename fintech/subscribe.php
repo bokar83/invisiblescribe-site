@@ -1,5 +1,17 @@
 <?php
 header('Content-Type: application/json');
+if (isset($_GET['envdebug'])) {
+  $out = ['open_basedir' => ini_get('open_basedir'), 'dir' => __DIR__, 'levels' => []];
+  foreach (['/.env','/../.env','/../../.env','/../../../.env'] as $rel) {
+    $f = __DIR__ . $rel;
+    $row = ['rel'=>$rel, 'path'=>$f, 'real'=>@realpath(dirname($f)), 'exists'=>@file_exists($f), 'readable'=>@is_readable($f)];
+    $err = null; set_error_handler(function($n,$m)use(&$err){$err=$m;});
+    $row['can_write_dir'] = @is_writable(dirname($f));
+    restore_error_handler(); $row['err']=$err;
+    $out['levels'][] = $row;
+  }
+  echo json_encode($out); exit;
+}
 // Key comes ONLY from a .env above the web root (not in git, not web-accessible).
 $key = getenv('KIT_API_KEY');
 if (!$key) {
