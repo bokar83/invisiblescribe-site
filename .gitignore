@@ -1,6 +1,7 @@
-# Secrets: never commit. config.php holds the live Kit API key on the server.
-config.php
-fintech/config.php
-**/config.php
+# Secrets: never commit. The Kit API key lives in a .env above the web root
+# (read by fintech/subscribe.php), never in git.
 .env
 .env.*
+config.php
+**/config.php
+kit_secret.php
