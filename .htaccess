@@ -1,15 +1,13 @@
 Options -Indexes
-DirectoryIndex index.php index.html
+DirectoryIndex index.html
 RewriteEngine On
 RewriteCond %{HTTPS} off
 RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [L,R=301]
 
-# A/B splitter must run per-request: disable LiteSpeed page cache at apex.
-<IfModule LiteSpeed>
-  CacheDisable public /
-  RewriteRule .* - [E=Cache-Control:no-cache]
-</IfModule>
-
-<FilesMatch "\.(html|htm|php)$">
-  Header set Cache-Control "no-cache, no-store, must-revalidate, max-age=0"
+# Single static apex (concept v1). A/B was removed: the PHP splitter could not
+# survive LiteSpeed/hcdn page-cache pinning, so it served inconsistent variants.
+# Rebuild A/B client-side (JS) later if needed. Revalidate HTML so future edits
+# propagate immediately instead of living in caches.
+<FilesMatch "\.(html|htm)$">
+  Header set Cache-Control "no-cache, must-revalidate, max-age=0"
 </FilesMatch>
