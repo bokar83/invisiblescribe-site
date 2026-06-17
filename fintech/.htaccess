@@ -10,5 +10,13 @@ RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [L,R=301]
 
 # Server-side env file: never servable over HTTP (Hostinger blocks dotfiles too).
 <Files ".env">
-  Require all denied
+  # Apache 2.4 / LiteSpeed
+  <IfModule mod_authz_core.c>
+    Require all denied
+  </IfModule>
+  # Apache 2.2 fallback
+  <IfModule !mod_authz_core.c>
+    Order allow,deny
+    Deny from all
+  </IfModule>
 </Files>
