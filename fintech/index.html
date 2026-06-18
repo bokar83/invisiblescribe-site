@@ -104,6 +104,10 @@ h1.poster .scribe .ribbon{position:absolute;left:-2%;right:-3%;bottom:-.12em;hei
 .duo::before{content:"";position:absolute;inset:0;z-index:2;mix-blend-mode:screen;background:linear-gradient(150deg,var(--ochre-soft) 0%,var(--paper-2) 62%,var(--ochre) 100%);opacity:.16}
 .hero-photo .cap{position:absolute;left:14px;bottom:16px;z-index:4;color:var(--paper);font-family:var(--mono);font-weight:500;font-size:.64rem;letter-spacing:.13em;text-transform:uppercase;padding:8px 13px;isolation:isolate;transform:rotate(-1.1deg)}
 .hero-photo .cap::before{content:"";position:absolute;inset:0;z-index:-1;background:var(--ink);filter:url(#roughTag)}
+.hero-book{display:flex;align-items:center;justify-content:center;min-height:380px;perspective:1600px}
+.hero-book .bk{position:relative;width:80%;max-width:432px;transform:rotateY(-24deg) rotateX(2deg);transform-style:preserve-3d;border-radius:2px 6px 6px 2px;box-shadow:1px 0 0 #cabf a3,2px 0 0 #efe7d6,3px 0 0 #cabfa3,4px 0 0 #efe7d6,5px 0 0 #cabfa3,6px 0 0 #efe7d6,7px 0 0 #cabfa3,8px 0 0 #efe7d6,-24px 36px 64px rgba(33,28,23,.34)}
+.hero-book .bk img{display:block;width:100%;height:auto;border-radius:2px 6px 6px 2px}
+.hero-book .bk::before{content:"";position:absolute;inset:0;border-radius:2px 6px 6px 2px;background:linear-gradient(90deg,rgba(0,0,0,.24) 0,rgba(0,0,0,.05) 4%,rgba(0,0,0,0) 11%);pointer-events:none}
 
 /* ---- ink-stamp CTA (rough-edged fill, crisp text) ---- */
 .cta{display:inline-flex;align-items:center;gap:12px;font-family:var(--display);font-weight:700;font-size:1rem;letter-spacing:.005em;
@@ -309,9 +313,8 @@ footer a{color:var(--ochre);text-decoration:underline;text-underline-offset:3px}
           </a>
         </div>
       </div>
-      <div class="hero-photo duo rv">
-        <img src="fintech-assets/hero-v2.jpg" alt="Extreme close-up of dark ink feathering into warm cream ruled paper, ochre sidelight catching the fibers">
-        <span class="cap">Words that get read</span>
+      <div class="hero-book">
+        <div class="bk"><img src="fintech-assets/playbook-cover.png" alt="The Fintech Founder's Authority Playbook, a free 5-day email course"></div>
       </div>
     </div>
   </div>
