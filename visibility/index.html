@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Personal Visibility Audit | Invisible Scribe</title>
+<meta name="description" content="When someone looks you up, what do they actually find? A free check of how you show up on LinkedIn, in search, and in the way AI describes you." />
+<meta property="og:title" content="Personal Visibility Audit | Invisible Scribe" />
+<meta property="og:description" content="When someone looks you up, what do they actually find? Free visibility check for founders and operators." />
+<meta name="robots" content="index,follow" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Public+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --night:#06070d;
+    --night-2:#0a0c15;
+    --panel:#0d101b;
+    --line:rgba(216,224,240,.10);
+    --silver:#d8e0f0;
+    --silver-dim:#8b93a8;
+    --gold:#f4d58a;
+    --gold-soft:#e9c98c;
+    --fS:'Spectral',Georgia,serif;
+    --fP:'Public Sans',system-ui,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
+  body{
+    font-family:var(--fP);
+    color:var(--silver);
+    background:var(--night);
+    line-height:1.62;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+    overflow-x:hidden;
+  }
+  .atmosphere{
+    position:fixed;inset:0;z-index:0;pointer-events:none;
+    background:
+      radial-gradient(ellipse 70% 50% at 50% 0%, rgba(34,40,66,.55) 0%, rgba(10,12,22,0) 62%),
+      radial-gradient(circle at 50% 8%, rgba(244,213,138,.06) 0%, rgba(6,7,13,0) 44%),
+      linear-gradient(180deg,#04050a 0%,#06070d 60%,#04050a 100%);
+  }
+  .wrap{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:0 24px;}
+
+  /* nav */
+  nav{position:relative;z-index:2;display:flex;align-items:center;justify-content:space-between;max-width:760px;margin:0 auto;padding:26px 24px 0;}
+  .logo{font-family:var(--fS);font-weight:400;font-size:18px;letter-spacing:.01em;color:var(--silver);}
+  .logo em{font-style:italic;color:var(--gold);}
+  .nav-mail{font-family:var(--fP);font-weight:400;font-size:12px;letter-spacing:.06em;color:var(--silver-dim);text-decoration:none;transition:color .2s;}
+  .nav-mail:hover{color:var(--gold);}
+
+  /* hero */
+  header.hero{padding:clamp(56px,12vh,120px) 0 clamp(40px,8vh,80px);}
+  .eyebrow{
+    font-family:var(--fP);font-weight:500;letter-spacing:.4em;text-transform:uppercase;
+    font-size:11px;color:var(--gold-soft);margin-bottom:22px;
+    display:inline-flex;align-items:center;gap:9px;
+  }
+  .eyebrow::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--gold);box-shadow:0 0 10px 1px rgba(244,213,138,.6);}
+  h1{
+    font-family:var(--fS);font-weight:300;
+    font-size:clamp(2.15rem,1.3rem + 4.4vw,4.2rem);
+    line-height:1.02;letter-spacing:-.01em;color:var(--silver);
+    text-shadow:0 0 40px rgba(216,224,240,.14);
+  }
+  h1 em{font-style:italic;color:var(--gold);text-shadow:0 0 30px rgba(244,213,138,.35);}
+  .lede{
+    font-family:var(--fS);font-weight:300;
+    font-size:clamp(1.02rem,.9rem + .8vw,1.35rem);
+    color:var(--silver);max-width:56ch;margin-top:26px;line-height:1.6;
+  }
+  .lede strong{color:var(--gold-soft);font-weight:400;}
+  .cta-row{margin-top:34px;display:flex;flex-wrap:wrap;gap:14px;align-items:center;}
+  .btn{
+    display:inline-block;font-family:var(--fP);font-weight:600;font-size:14px;letter-spacing:.02em;
+    padding:15px 30px;border-radius:2px;text-decoration:none;transition:transform .14s,background .2s,border-color .2s;
+  }
+  .btn-primary{background:var(--gold);color:#171308;box-shadow:0 0 0 1px rgba(244,213,138,.2),0 14px 40px -18px rgba(244,213,138,.7);}
+  .btn-primary:hover{transform:translateY(-2px);background:var(--gold-soft);}
+  .btn-ghost{color:var(--silver);border:1px solid var(--line);}
+  .btn-ghost:hover{border-color:var(--gold-soft);color:var(--gold);}
+
+  /* section shell */
+  section.block{padding:clamp(40px,7vh,72px) 0;border-top:1px solid var(--line);}
+  .kicker{font-family:var(--fP);font-weight:600;letter-spacing:.18em;text-transform:uppercase;font-size:10px;color:var(--gold-soft);margin-bottom:18px;}
+  h2{font-family:var(--fS);font-weight:300;font-size:clamp(1.55rem,1.1rem + 2vw,2.5rem);line-height:1.08;letter-spacing:-.01em;color:var(--silver);margin-bottom:10px;}
+  h2 em{font-style:italic;color:var(--gold);}
+  .block p.body{color:var(--silver-dim);max-width:58ch;margin-top:14px;font-weight:300;font-size:15px;}
+
+  /* the gap list */
+  .gap{display:grid;gap:16px;margin-top:30px;}
+  .gap-item{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:22px 24px;}
+  .gap-item h3{font-family:var(--fS);font-weight:400;font-size:1.15rem;color:var(--silver);margin-bottom:7px;}
+  .gap-item h3 span{color:var(--gold);}
+  .gap-item p{color:var(--silver-dim);font-weight:300;font-size:14px;}
+
+  /* what you get */
+  .give{list-style:none;margin-top:26px;display:grid;gap:14px;}
+  .give li{position:relative;padding-left:30px;color:var(--silver);font-weight:300;font-size:15px;max-width:60ch;}
+  .give li::before{content:'';position:absolute;left:0;top:9px;width:9px;height:9px;border-radius:50%;background:var(--gold);box-shadow:0 0 9px 1px rgba(244,213,138,.5);}
+  .give li strong{color:var(--silver);font-weight:500;}
+
+  /* capture */
+  #check{scroll-margin-top:20px;}
+  .capture-card{background:linear-gradient(180deg,#0e1220,#0a0d18);border:1px solid var(--line);border-radius:10px;padding:clamp(26px,4vw,40px);margin-top:26px;box-shadow:0 30px 80px -50px rgba(0,0,0,.9);}
+  .capture-card h2{margin-bottom:6px;}
+  .capture-card .body{margin-bottom:24px;}
+  form{display:grid;gap:14px;}
+  .field label{display:block;font-family:var(--fP);font-weight:500;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--silver-dim);margin-bottom:7px;}
+  .field input{
+    width:100%;padding:15px 16px;background:#070a12;border:1px solid var(--line);border-radius:4px;
+    color:var(--silver);font-family:var(--fP);font-size:15px;transition:border-color .2s,background .2s;
+  }
+  .field input::placeholder{color:#586074;}
+  .field input:focus{outline:none;border-color:var(--gold-soft);background:rgba(244,213,138,.03);}
+  button.submit{
+    width:100%;padding:16px;background:var(--gold);color:#171308;border:none;border-radius:4px;cursor:pointer;
+    font-family:var(--fP);font-weight:600;font-size:15px;letter-spacing:.02em;transition:background .2s,transform .12s;
+  }
+  button.submit:hover{background:var(--gold-soft);transform:translateY(-1px);}
+  button.submit:disabled{opacity:.55;cursor:default;transform:none;}
+  .form-foot{font-size:12px;color:var(--silver-dim);font-weight:300;margin-top:2px;}
+  .banner{display:none;margin-top:6px;padding:13px 15px;border-radius:4px;font-size:14px;line-height:1.5;}
+  .banner.ok{display:block;background:rgba(244,213,138,.08);border:1px solid rgba(244,213,138,.3);color:var(--gold-soft);}
+  .banner.err{display:block;background:rgba(255,120,120,.08);border:1px solid rgba(255,120,120,.3);color:#ff9a9a;}
+
+  /* CW funnel */
+  .cw{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:clamp(28px,4vw,44px);margin-top:26px;text-align:left;}
+  .cw h2{margin-bottom:12px;}
+  .cw p{color:var(--silver-dim);font-weight:300;font-size:15px;max-width:56ch;}
+  .cw a.btn{margin-top:24px;}
+
+  /* founder + footer */
+  .founder{color:var(--silver-dim);font-weight:300;font-size:14px;max-width:58ch;}
+  .founder strong{color:var(--silver);font-weight:500;}
+  footer{border-top:1px solid var(--line);padding:34px 0 60px;margin-top:20px;}
+  footer .fl{font-family:var(--fS);font-size:16px;color:var(--silver);}
+  footer .fl em{font-style:italic;color:var(--gold);}
+  footer .fmeta{color:var(--silver-dim);font-size:13px;font-weight:300;margin-top:10px;line-height:1.7;}
+  footer a{color:var(--silver-dim);text-decoration:none;transition:color .2s;}
+  footer a:hover{color:var(--gold);}
+
+  .reveal{opacity:0;transform:translateY(16px);transition:opacity .9s cubic-bezier(.22,1,.36,1),transform .9s cubic-bezier(.22,1,.36,1);}
+  .reveal.in{opacity:1;transform:none;}
+  @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none;}}
+</style>
+</head>
+<body>
+  <div class="atmosphere"></div>
+
+  <nav>
+    <a href="/" class="logo">Invisible <em>Scribe</em></a>
+    <a href="mailto:boubacar@catalystworks.consulting" class="nav-mail">boubacar@catalystworks.consulting</a>
+  </nav>
+
+  <div class="wrap">
+    <header class="hero">
+      <p class="eyebrow reveal">Personal visibility audit</p>
+      <h1 class="reveal">When someone looks you up, what do they actually <em>find?</em></h1>
+      <p class="lede reveal">You have the track record. The problem is nobody can see it. Your LinkedIn, your search results, the way AI describes you when a stranger asks your name. <strong>Most of it is working against you, and you have never checked.</strong></p>
+      <div class="cta-row reveal">
+        <a href="#check" class="btn btn-primary">Send me my free visibility check</a>
+        <a href="#gap" class="btn btn-ghost">What it looks at</a>
+      </div>
+    </header>
+
+    <section class="block" id="gap">
+      <p class="kicker reveal">Three places you are being judged</p>
+      <h2 class="reveal">People decide about you <em>before</em> you ever get in the room.</h2>
+      <p class="body reveal">A prospect, a hiring committee, a partner, a journalist. The first thing they do is look you up. Here is where they form the opinion.</p>
+      <div class="gap">
+        <div class="gap-item reveal">
+          <h3><span>01.</span> Your LinkedIn</h3>
+          <p>The headline, the About section, the top of your feed. Most operators leave it as a job title and a wall of reposts. It reads like a resume, not a person worth backing.</p>
+        </div>
+        <div class="gap-item reveal">
+          <h3><span>02.</span> Your search results</h3>
+          <p>What comes up on the first page when someone types your name. Old profiles, a stale bio, or nothing at all. The gaps say as much as the hits.</p>
+        </div>
+        <div class="gap-item reveal">
+          <h3><span>03.</span> The way AI describes you</h3>
+          <p>People now ask ChatGPT and Perplexity who you are before a call. If the model has thin material to work with, it guesses, or it names someone else with your job.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="block">
+      <p class="kicker reveal">The free check</p>
+      <h2 class="reveal">A straight read on how you <em>show up</em> today.</h2>
+      <p class="body reveal">Give me your name and a link, and I will look you up the way a stranger would. You get a short, plain-language check back by email. No dashboard, no login, no fluff.</p>
+      <ul class="give">
+        <li class="reveal"><strong>The first impression your LinkedIn actually makes</strong>, read cold, headline through About.</li>
+        <li class="reveal"><strong>What your name surfaces in search</strong>, and the gaps a stranger would notice.</li>
+        <li class="reveal"><strong>How AI answers "who is this person"</strong> when someone asks before meeting you.</li>
+        <li class="reveal"><strong>The one change I would make first</strong> if this were my own name on the line.</li>
+      </ul>
+    </section>
+
+    <section class="block" id="check">
+      <div class="capture-card">
+        <p class="kicker">Free visibility check</p>
+        <h2>Send me my <em>free</em> visibility check.</h2>
+        <p class="body">Enter your name and email. I read your presence and send the check back. That is the whole ask.</p>
+        <form id="checkForm" novalidate>
+          <div class="field">
+            <label for="fname">First name</label>
+            <input id="fname" name="first_name" type="text" autocomplete="given-name" placeholder="Your first name" maxlength="80" required />
+          </div>
+          <div class="field">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" autocomplete="email" inputmode="email" placeholder="you@company.com" required />
+          </div>
+          <button type="submit" class="submit" id="submitBtn">Send me my free check</button>
+          <p class="form-foot">One email with your check. No list-spam, unsubscribe any time.</p>
+          <div class="banner" id="banner" role="status" aria-live="polite"></div>
+        </form>
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="cw">
+        <p class="kicker">When you want it done, not just diagnosed</p>
+        <h2>The full audit and the build live at <em>Catalyst Works</em>.</h2>
+        <p>The free check shows you where you stand. If you want the deep audit and someone to build the presence with you, not just hand you a checklist, that is the next step. I run it under Catalyst Works, and we do it together.</p>
+        <a href="https://catalystworks.consulting" target="_blank" rel="noopener" class="btn btn-ghost">See Catalyst Works</a>
+      </div>
+    </section>
+
+    <section class="block">
+      <p class="kicker reveal">Who is behind this</p>
+      <p class="founder reveal"><strong>I am Boubacar Barry.</strong> I spent fifteen years as an operator inside a Fortune 100, and I now run Catalyst Works out of South Jordan, Utah. I care about this because I have watched sharp, capable people get passed over for the person who was simply easier to find and easier to understand. Presence is not vanity. It is whether the right people can tell what you are worth before they ever talk to you.</p>
+    </section>
+  </div>
+
+  <footer>
+    <div class="wrap">
+      <p class="fl">Invisible <em>Scribe</em></p>
+      <p class="fmeta">By <a href="https://catalystworks.consulting" target="_blank" rel="noopener">Catalyst Works</a>. South Jordan, UT.<br/>
+      Contact: <a href="mailto:boubacar@catalystworks.consulting">boubacar@catalystworks.consulting</a></p>
+    </div>
+  </footer>
+
+<script>
+(function(){
+  'use strict';
+  // reveal on scroll
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, {threshold:.12});
+  document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+
+  var form = document.getElementById('checkForm');
+  var btn = document.getElementById('submitBtn');
+  var banner = document.getElementById('banner');
+  var emailEl = document.getElementById('email');
+  var nameEl = document.getElementById('fname');
+
+  function show(kind, msg){ banner.className = 'banner ' + kind; banner.textContent = msg; }
+
+  form.addEventListener('submit', function(ev){
+    ev.preventDefault();
+    var email = (emailEl.value||'').trim();
+    var name = (nameEl.value||'').trim();
+    var ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    if(!name){ show('err','Add your first name so I know who I am reading.'); nameEl.focus(); return; }
+    if(!ok){ show('err','That email does not look right. Check it and try again.'); emailEl.focus(); return; }
+
+    btn.disabled = true; btn.textContent = 'Sending...';
+    var body = new URLSearchParams();
+    body.set('first_name', name);
+    body.set('email', email);
+
+    fetch('subscribe.php', {method:'POST', headers:{'Content-Type':'application/x-www-form-urlencoded'}, body:body.toString()})
+      .then(function(r){ return r.json().catch(function(){ return {ok:false}; }); })
+      .then(function(d){
+        if(d && d.ok){
+          form.querySelectorAll('.field, .form-foot').forEach(function(n){ n.style.display='none'; });
+          btn.style.display='none';
+          show('ok','You are in. I will read your presence and send your visibility check to ' + email + '. Give me a day or two.');
+        } else {
+          btn.disabled=false; btn.textContent='Send me my free check';
+          show('err','Something hiccupped on my end. Email me at boubacar@catalystworks.consulting and I will do it by hand.');
+        }
+      })
+      .catch(function(){
+        btn.disabled=false; btn.textContent='Send me my free check';
+        show('err','Connection dropped. Try once more, or email me at boubacar@catalystworks.consulting.');
+      });
+  });
+})();
+</script>
+</body>
+</html>
