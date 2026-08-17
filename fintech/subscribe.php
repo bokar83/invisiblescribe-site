@@ -1,7 +1,13 @@
 <?php
 /**
  * Invisible Scribe -- EEC opt-in handler.
- * Receives first_name + email from the landing form, then via the Kit v4 API:
+ * Receives email (first_name optional, source optional) from either capture form
+ * on the landing page: the hero form at the top, which is email only, or the
+ * longer form at the foot of the page.
+ *
+ * Order of operations: the durable lead row is written FIRST (see LEAD_STORE_URL
+ * below) and a failure there is reported to the visitor. Only then, via the
+ * Kit v4 API:
  *   1. creates/upserts the subscriber (with first_name for email personalization)
  *   2. adds them to the EEC sequence (triggers Day 0/Day 1 sends)
  *   3. tags them fintech-eec
@@ -33,9 +39,55 @@ if (!$key) {
 $email = filter_var($_POST['email'] ?? '', FILTER_VALIDATE_EMAIL);
 $firstName = trim($_POST['first_name'] ?? '');
 $firstName = mb_substr($firstName, 0, 80);
+$source = trim($_POST['source'] ?? 'fintech_eec_footer');
+if (!in_array($source, ['fintech_eec_hero', 'fintech_eec_footer'], true)) { $source = 'fintech_eec_footer'; }
 
 if (!$email) { http_response_code(422); echo json_encode(['ok'=>false,'error'=>'invalid_email']); exit; }
 if (!$key)   { error_log('invisiblescribe/subscribe.php: KIT_API_KEY not configured'); http_response_code(500); echo json_encode(['ok'=>false,'error'=>'no_config']); exit; }
+
+// ── Durable lead row FIRST, before the ESP call. ─────────────────────────────
+// Kit is the course delivery system, not the record of who asked. The row in the
+// leads store is the record, so it is written before anything else happens and a
+// failure here is returned to the visitor instead of being swallowed: they see
+// the "email me and I will start you by hand" line rather than a thank-you over
+// a lost lead. Same endpoint every other live capture surface posts to; called
+// server to server, so the browser CORS allowlist is not involved.
+const LEAD_STORE_URL = 'https://agentshq.boubacarbarry.com/api/orc/constraints-capture';
+
+function uuid4() {
+  $d = random_bytes(16);
+  $d[6] = chr((ord($d[6]) & 0x0f) | 0x40);
+  $d[8] = chr((ord($d[8]) & 0x3f) | 0x80);
+  return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($d), 4));
+}
+
+$leadPayload = [
+  'email'           => $email,
+  'idempotency_key' => uuid4(),
+  'source'          => $source,
+  'pain'            => 'Fintech founder authority playbook, free 5-day course opt-in',
+];
+$ch = curl_init(LEAD_STORE_URL);
+curl_setopt_array($ch, [
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_POST           => true,
+  CURLOPT_TIMEOUT        => 12,
+  CURLOPT_CONNECTTIMEOUT => 6,
+  CURLOPT_HTTPHEADER     => ['Content-Type: application/json', 'Accept: application/json'],
+  CURLOPT_POSTFIELDS     => json_encode($leadPayload),
+]);
+$leadBody = curl_exec($ch);
+$leadCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+$leadErr  = curl_error($ch);
+curl_close($ch);
+$leadOk = ($leadCode >= 200 && $leadCode < 300);
+if (!$leadOk) {
+  error_log('invisiblescribe/subscribe.php lead store failed: HTTP ' . $leadCode
+    . ' curl=' . $leadErr . ' body=' . substr((string)$leadBody, 0, 200) . ' for ' . $email);
+  http_response_code(502);
+  echo json_encode(['ok' => false, 'error' => 'lead_store_' . $leadCode]);
+  exit;
+}
 
 const KIT_SEQUENCE_ID = 2796374;   // "The Fintech Founder's Authority Playbook (EEC)"
 const KIT_TAG_ID      = 20415268;  // fintech-eec

@@ -93,6 +93,29 @@ h1.poster .scribe .ribbon{position:absolute;left:-2%;right:-3%;bottom:-.12em;hei
   background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 18' preserveAspectRatio='none'%3E%3Cpath d='M2,9.5 L15.3,8.3 L29.8,6.1 L52.1,8.8 L66.5,7.3 L92.8,7.7 L117.4,7.2 L140.6,8.2 L159.5,9.7 L183.9,8.2 L199.6,9.7 L220.6,10.2 L238.2,10.8 L257.6,10.8 L284,10.9 L298,12.2 L298,12.9 L284,14.1 L257.6,15.8 L238.2,15.6 L220.6,13.7 L199.6,13.6 L183.9,12.8 L159.5,15.2 L140.6,12.3 L117.4,13 L92.8,11.9 L66.5,11.5 L52.1,13.4 L29.8,11.2 L15.3,11.3 L2,10.3 Z' fill='%23B07A2E'/%3E%3C/svg%3E") no-repeat center/100% 100%;opacity:0}
 .js-on h1.poster .scribe.inked .ribbon{opacity:1;transition:opacity .9s var(--ease) .55s}
 
+/* hero email capture (top of page, primary action) */
+.hreg{margin-top:26px;max-width:44ch}
+.hreg-field label{display:block;font-family:var(--mono);font-weight:500;font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:9px}
+.hreg-row{display:flex;align-items:flex-end;gap:14px;flex-wrap:wrap}
+.hreg-row input{flex:1 1 15ch;min-width:0;background:transparent;border:none;border-bottom:2px solid rgba(28,34,48,.26);color:var(--ink);font-family:var(--serif);font-size:1.12rem;padding:8px 2px 10px;border-radius:0;transition:border-color .25s var(--ease)}
+.hreg-row input:focus{outline:none;border-bottom-color:var(--ochre)}
+.hreg-field.err input{border-bottom-color:#C0521F}
+.hreg-submit{flex:0 0 auto;position:relative}
+.hreg-submit[aria-busy="true"] .reg-label{opacity:.45}
+.hreg-spin{display:none;width:17px;height:17px;border:2.4px solid rgba(28,34,48,.3);border-top-color:var(--ink);border-radius:50%;animation:regspin .7s linear infinite;margin-left:4px}
+.hreg-submit[aria-busy="true"] .hreg-spin{display:inline-block}
+.hreg-err{display:none;font-family:var(--mono);font-weight:500;font-size:.72rem;letter-spacing:.02em;color:#C0521F;margin-top:10px}
+.hreg-field.err .hreg-err{display:block}
+.hreg-formerr{display:none;font-family:var(--serif);font-size:.96rem;color:#C0521F;margin-top:12px;line-height:1.45;max-width:42ch}
+.hreg.hasformerr .hreg-formerr{display:block}
+.hreg-formerr a{color:#C0521F;text-decoration:underline;text-underline-offset:3px}
+.hreg-fine{font-family:var(--mono);font-weight:400;font-size:.7rem;letter-spacing:.02em;color:var(--ink-faint);margin-top:14px;line-height:1.5}
+.hreg-done{display:none}
+.hreg.done .hreg-field,.hreg.done .hreg-fine,.hreg.done .hreg-formerr{display:none}
+.hreg.done .hreg-done{display:block}
+.hreg-done h3{font-family:var(--display);font-weight:800;font-size:1.6rem;color:var(--ink);letter-spacing:-.01em;line-height:1.06;margin-bottom:10px}
+.hreg-done p{font-family:var(--serif);font-size:1.02rem;color:var(--ink-soft);line-height:1.5;max-width:42ch}
+@media(max-width:600px){.hreg{margin-top:22px}.hreg-row input{flex:1 1 100%}.hreg-submit{width:100%;justify-content:center}}
 .hero-lead{font-family:var(--serif);font-size:clamp(1.08rem,1rem+.55vw,1.34rem);line-height:1.5;color:var(--ink-2);max-width:46ch;margin-top:28px}
 .hero-lead b{font-weight:600;color:var(--ink)}
 /* the whisper: an intimate aside at the foot of page one, names the reader */
@@ -320,12 +343,27 @@ footer a{color:var(--ochre);text-decoration:underline;text-underline-offset:3px}
           <span class="l"><span class="inner">You are just not the one</span></span>
           <span class="l"><span class="inner">they <span class="scribe" id="scribe">hear<span class="ribbon" aria-hidden="true"></span></span>.</span></span>
         </h1>
+        <form class="hreg" id="hero-register" novalidate>
+          <div class="hreg-field">
+            <label for="hf-email">Your best email</label>
+            <div class="hreg-row">
+              <input id="hf-email" name="email" type="email" autocomplete="email" inputmode="email" required>
+              <button type="submit" class="cta hreg-submit" id="heroSubmit">
+                <span class="reg-label">Send me day one</span>
+                <span class="hreg-spin" aria-hidden="true"></span>
+                <svg class="reg-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              </button>
+            </div>
+            <span class="hreg-err" id="hero-err-email" role="alert">That email does not look right.</span>
+          </div>
+          <p class="hreg-formerr" id="heroFormErr" role="alert">Something went wrong saving that. Email me at <a href="mailto:boubacar@invisiblescribe.com">boubacar@invisiblescribe.com</a> and I will start you by hand.</p>
+          <p class="hreg-fine">One short email a day for five days. No pitch until you ask. Leave anytime.</p>
+          <div class="hreg-done" role="status">
+            <h3>Day one is on its way.</h3>
+            <p>Check your inbox in the next few minutes. If it is not there, check your spam or junk folder first, then your promotions tab, and drag it into your inbox so the next lessons land there too.</p>
+          </div>
+        </form>
         <p class="hero-lead">I spent a decade inside a large company as the person who often knew the answer and could see the fix, without the standing to make anyone listen. I watched my ideas get adopted years later by someone else, who got the credit. <b>If your best thinking keeps getting ignored until someone else repeats it, this free 5-day course is the way out of that shadow.</b></p>
-        <div style="margin-top:30px">
-          <a href="#register" class="cta" data-reg>Send me day one
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-          </a>
-        </div>
         <p class="whisper">You are not bad at this. You have just been doing it in a room where the louder voice wins. <b>I spent a decade in that room.</b></p>
       </div>
       <div class="hero-book">
@@ -555,13 +593,40 @@ footer a{color:var(--ochre);text-decoration:underline;text-underline-offset:3px}
       setErr(nameI,!okName); setErr(emailI,!okEmail);
       if(!okName||!okEmail){(okName?emailI:nameI).focus();return;}
       submitBtn.setAttribute('aria-busy','true'); submitBtn.disabled=true;
-      var body=new URLSearchParams({first_name:nameI.value.trim(),email:emailI.value.trim()});
+      var body=new URLSearchParams({first_name:nameI.value.trim(),email:emailI.value.trim(),source:'fintech_eec_footer'});
       function done(){regForm.classList.add('done');var d=regForm.querySelector('.reg-done h3');if(d){try{d.setAttribute('tabindex','-1');d.focus();}catch(_){}}}
       function fail(){submitBtn.removeAttribute('aria-busy');submitBtn.disabled=false;regForm.classList.add('hasformerr');}
       fetch('subscribe.php',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:body.toString()})
         .then(function(r){return r.json().catch(function(){throw new Error('bad json');});})
         .then(function(j){if(j&&j.ok){done();}else{fail();}})
         .catch(function(){fail();});
+    });
+  }
+
+  /* ---- hero capture (top of page): email only -> subscribe.php -> success/error ----
+     Same contract as the form above: the visitor only sees the success state when
+     subscribe.php returns {ok:true}. Any other outcome, including a network drop or
+     an HTML error page, shows the failure line instead of a thank-you. */
+  var heroForm=document.getElementById('hero-register');
+  if(heroForm){
+    var hEmail=document.getElementById('hf-email');
+    var hBtn=document.getElementById('heroSubmit');
+    var hRe=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    function hSetErr(on){hEmail.closest('.hreg-field').classList.toggle('err',on);if(on){hEmail.setAttribute('aria-invalid','true');}else{hEmail.removeAttribute('aria-invalid');}}
+    hEmail.addEventListener('input',function(){if(hRe.test(hEmail.value.trim()))hSetErr(false);});
+    heroForm.addEventListener('submit',function(e){
+      e.preventDefault();
+      heroForm.classList.remove('hasformerr');
+      if(!hRe.test(hEmail.value.trim())){hSetErr(true);hEmail.focus();return;}
+      hSetErr(false);
+      hBtn.setAttribute('aria-busy','true'); hBtn.disabled=true;
+      var hBody=new URLSearchParams({email:hEmail.value.trim(),source:'fintech_eec_hero'});
+      function hDone(){heroForm.classList.add('done');var d=heroForm.querySelector('.hreg-done h3');if(d){try{d.setAttribute('tabindex','-1');d.focus();}catch(_){}}}
+      function hFail(){hBtn.removeAttribute('aria-busy');hBtn.disabled=false;heroForm.classList.add('hasformerr');}
+      fetch('subscribe.php',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:hBody.toString()})
+        .then(function(r){return r.json().catch(function(){throw new Error('bad json');});})
+        .then(function(j){if(j&&j.ok){hDone();}else{hFail();}})
+        .catch(function(){hFail();});
     });
   }
 })();
